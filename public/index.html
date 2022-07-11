@@ -9,32 +9,88 @@
   </head>
   <body>
   <h1>Hello Vue.js!</h1>
-  <div id="myApp">
-      <p>My local property: {{ myLocalProperty }}</p>
-      <hr>
-      <button @click="buttonClicked">Click me</button>
-      <br>
-      <p v-if="randomNumber >= 50">randomNumber is >= 50!</p>
-      <p v-else-if = "  randomNumber < 20"> randomNumber < 20</p>
-      <p v-else >Sorry, randomNumber is only <b>{{ randomNumber }}</p>
+  <div id="app1">
+      <span>لیست کشورها</span>
+      <ul>
+          <li v-for="country in countries" >{{country}}</li>
+      </ul>
 
 
 
-      <h v-show="randomNumber >= 50">randomNumber is >= 50!</h>
+      <h2>لیست کشورها</h2></br>
+      <div v-for="country in countries" dir="rtl" >
+          <span>کشور</span>
+          <span>{{country.name}}</span>
+          <span>دارای جمعیت </span>
+          <span>(</span>
+          <span v-for="population in country.population">
+          <span v-if="population.unit === 'million'">
+            <span>{{population.number}}</span>
+            <span>{{population.unit}}</span>
+          </span>
+        </span>
+          <span>)</span>
+          <span>است.</span>
+      </div>
+
+
+
+      <h2>لیست کشورها</h2></br>
+      <div v-for="(country, indexC) in countries" :key='indexC' dir="rtl" >
+          <span>کشور</span>
+          <span>{{country.name}}</span>
+          <span>دارای جمعیت </span>
+          <span>(</span>
+          <span v-for="(population, indexP) in country.population" :key="indexP">
+          <span v-if="population.unit === 'million'">
+            <span>{{population.number}}</span>
+            <span>{{population.unit}}</span>
+          </span>
+        </span>
+          <span>)</span>
+          <span>است.</span>
+      </div>
+  </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
   <script>
       const app = new Vue({
-          el: '#myApp',
+          el: '#app1',
           data: {
-              myLocalProperty: 'Im a local property value',
-              randomNumber: ''
+              countries:[
+                  {name: 'brazil', population: [
+                          { number: '211000000' , unit: 'هزار'},
+                          { number: '211' , unit: 'million'},
+                          { number: '0.211' , unit: 'billion'}
+                      ]},
+                  {name: 'canada', population: [
+                          { number: '38000000' , unit: 'هزار'},
+                          { number: '38' , unit: 'million'},
+                          { number: '0.038' , unit: 'billion'}
+                      ]},
+                  {name: 'finland', population: [
+                          { number: '6000000' , unit: 'هزار'},
+                          { number: '6' , unit: 'million'},
+                          { number: '0.006' , unit: 'billion'}
+                      ]},
+                  {name: 'france', population: [
+                          { number: '67000000' , unit: 'هزار'},
+                          { number: '67' , unit: 'million'},
+                          { number: '0.067' , unit: 'billion'}
+                      ]},
+                  {name: 'india', population: [
+                          { number: '1366000000' , unit: 'هزار'},
+                          { number: '1366' , unit: 'million'},
+                          { number: '1.366' , unit: 'billion'}
+                      ]},
+              ]
           },
           methods: {
-              buttonClicked() {
-                  this.randomNumber = Math.floor( Math.random() * 100);
-              }
+
           }
       });
   </script>
