@@ -1,52 +1,62 @@
 <html>
 
 <head>
-    <title>use of components</title>
+    <title>Sokan Academy - part 7</title>
 </head>
 
 <body>
-
 <div id="app1">
-    <age-calculator
-            v-for="person in people"
-            :person="person"
-            :key="person.name"
-    ></age-calculator>
+    <label>What's your favorite car company?</label>
+    <br>
+
+    <input type="text" v-model="favoriteCar">
+
+    <hr>
+
+    <p>{{ response }}</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script>
-    Vue.component('age-calculator', {
-        props: {
-            person: {
-                type: Object,
-                required: true
-            }
-        },
-        template: `
-      <p>
-      {{ person.name }} فردی است که {{ daysAlive }} روز زندگی  کرده است .
-      </p>
-    `
-        ,
-        computed: {
-            daysAlive() { //Remember, computed props are functions in the end
-                return this.person.age * 365
-            }
-        }
-    });
     const app = new Vue({
         el: '#app1',
-        data: {
-            people: [
-                {name: 'علی', age: 38},
-                {name: 'محمد', age: 38},
-                {name: 'مصطفی', age: 31},
-                {name: 'جواد', age: 20},
-                {name: 'نادر', age: 32},
-                //Add more yourself
-            ]
+        data() {
+            return {
+                favoriteCar: null,
+                response: ''
+            }
+        },
+
+        // Watchers here
+        watch: {
+            favoriteCar(newValue, oldValue) {
+                if (!newValue) return // If its an empty string, pass
+
+                // If the new value contains the keyword BMW
+                if (newValue.toLowerCase().indexOf('bmw') !== -1) {
+                    this.response = 'this company have very nice cars!'
+                    return
+                }
+
+                // If the new value contains the word Mercedes Benz
+                if (newValue.toLowerCase().indexOf('mercedes benz') !== -1) {
+                    this.response = 'this company have luxury cars'
+                    return
+                }
+
+                // If the OLD value was BMW, and user changed it something else
+                if (
+                    oldValue.toLowerCase().indexOf('bmw') !== -1 &&
+                    newValue.toLowerCase().indexOf('bmw') === -1
+                ) {
+                    this.response = 'the bmw was good but this is better'
+                    return
+                }
+
+                // Default response
+                this.response = 'is this a car company?'
+            }
         }
     });
 </script>

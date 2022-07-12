@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <title>use of components</title>
+</head>
+
+<body>
+
+<div id="app1">
+    <age-calculator
+            v-for="person in people"
+            :person="person"
+            :key="person.name"
+    ></age-calculator>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    Vue.component('age-calculator', {
+        props: {
+            person: {
+                type: Object,
+                required: true
+            }
+        },
+        template: `
+      <p>
+      {{ person.name }} فردی است که {{ daysAlive }} روز زندگی  کرده است .
+      </p>
+    `
+        ,
+        computed: {
+            daysAlive() { //Remember, computed props are functions in the end
+                return this.person.age * 365
+            }
+        }
+    });
+    const app = new Vue({
+        el: '#app1',
+        data: {
+            people: [
+                {name: 'علی', age: 38},
+                {name: 'محمد', age: 38},
+                {name: 'مصطفی', age: 31},
+                {name: 'جواد', age: 20},
+                {name: 'نادر', age: 32},
+                //Add more yourself
+            ]
+        }
+    });
+</script>
+</body>
+
+</html>
