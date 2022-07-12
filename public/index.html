@@ -1,98 +1,64 @@
-<!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-  <h1>Hello Vue.js!</h1>
-  <div id="app1">
-      <span>لیست کشورها</span>
-      <ul>
-          <li v-for="country in countries" >{{country}}</li>
-      </ul>
+<html>
 
+<head>
+    <title>use of components</title>
+</head>
 
+<body>
 
-      <h2>لیست کشورها</h2></br>
-      <div v-for="country in countries" dir="rtl" >
-          <span>کشور</span>
-          <span>{{country.name}}</span>
-          <span>دارای جمعیت </span>
-          <span>(</span>
-          <span v-for="population in country.population">
-          <span v-if="population.unit === 'million'">
-            <span>{{population.number}}</span>
-            <span>{{population.unit}}</span>
-          </span>
-        </span>
-          <span>)</span>
-          <span>است.</span>
-      </div>
+<div id="app1">
+    <awesome-button></awesome-button>
 
+    <game-card v-for="game in games" :game-data="game" :key="game.name"></game-card>
 
+</div>
 
-      <h2>لیست کشورها</h2></br>
-      <div v-for="(country, indexC) in countries" :key='indexC' dir="rtl" >
-          <span>کشور</span>
-          <span>{{country.name}}</span>
-          <span>دارای جمعیت </span>
-          <span>(</span>
-          <span v-for="(population, indexP) in country.population" :key="indexP">
-          <span v-if="population.unit === 'million'">
-            <span>{{population.number}}</span>
-            <span>{{population.unit}}</span>
-          </span>
-        </span>
-          <span>)</span>
-          <span>است.</span>
-      </div>
-  </div>
-  </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-  </div>
+<script>
+    Vue.component('awesome-button', {
+        template: `<button @click="clickHandler">Click me for some awesomeness</button>`,
+        methods: {
+            clickHandler() {
+                alert('Hello Vue.js');
+            }
+        }
+    });
+    Vue.component('game-card', {
+        props: ['gameData'],
+        template: `
+          <div style="border-radius: .25rem; border: 1px solid #ECECEC; width: 400px; margin: 1rem; padding: 1rem;">
+          <h2>{{ newGameData.name }} - <small>{{ newGameData.console }}</small></h2>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+          <span v-for="heart in newGameData.rating">❤️</span>
 
-  <script>
-      const app = new Vue({
-          el: '#app1',
-          data: {
-              countries:[
-                  {name: 'brazil', population: [
-                          { number: '211000000' , unit: 'هزار'},
-                          { number: '211' , unit: 'million'},
-                          { number: '0.211' , unit: 'billion'}
-                      ]},
-                  {name: 'canada', population: [
-                          { number: '38000000' , unit: 'هزار'},
-                          { number: '38' , unit: 'million'},
-                          { number: '0.038' , unit: 'billion'}
-                      ]},
-                  {name: 'finland', population: [
-                          { number: '6000000' , unit: 'هزار'},
-                          { number: '6' , unit: 'million'},
-                          { number: '0.006' , unit: 'billion'}
-                      ]},
-                  {name: 'france', population: [
-                          { number: '67000000' , unit: 'هزار'},
-                          { number: '67' , unit: 'million'},
-                          { number: '0.067' , unit: 'billion'}
-                      ]},
-                  {name: 'india', population: [
-                          { number: '1366000000' , unit: 'هزار'},
-                          { number: '1366' , unit: 'million'},
-                          { number: '1.366' , unit: 'billion'}
-                      ]},
-              ]
-          },
-          methods: {
+          <button @click="increaseRating">Increase Rating</button>
+          </div>
+        `,
+        data() {
+            return {
+                newGameData: {...this.gameData}
+            }
+        },
+        methods: {
+            increaseRating() {
+                this.newGameData.rating++;
+            }
+        }
+    });
+    const app = new Vue({
+        el: '#app1',
+        data: {
+            games: [
+                { name: 'Super Mario 64', console: 'Nintendo 64', rating: 4 },
+                { name: 'The Legend of Zelda Ocarina of Time', console: 'Nintendo 64', rating: 5 },
+                { name: 'Secret of Mana', console: 'Super Nintendo', rating: 4 },
+                { name: 'Fallout 76', console: 'Multiple', rating: 1 },
+                { name: 'Super Metroid', console: 'Super Nintendo', rating: 6 }
+            ]
+        }
+    });
+</script>
+</body>
 
-          }
-      });
-  </script>
-  </body>
 </html>
